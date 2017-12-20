@@ -9,9 +9,11 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to React</h1>
-        </header>  
-        <MyEditor></MyEditor>
-        <div style={{width:500,margin:'0 auto',textAlign:'left'}}>
+        </header>
+        <div style={{width:500,margin:'20px auto',padding:20,border:'1px solid #999',textAlign:'left'}}>
+           <MyEditor></MyEditor>
+        </div>
+        <div style={{width:500,margin:'20px auto',textAlign:'left'}}>
              <RichEditorExample></RichEditorExample>
         </div>
       </div>

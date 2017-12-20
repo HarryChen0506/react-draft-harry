@@ -16,8 +16,8 @@ class RichEditorExample extends React.Component {
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
-        this.onChange(newState);
-        return true;
+            this.onChange(newState);
+            return true;
         }
         return false;
     }
@@ -27,18 +27,18 @@ class RichEditorExample extends React.Component {
     }
     _toggleBlockType(blockType) {
         this.onChange(
-        RichUtils.toggleBlockType(
-            this.state.editorState,
-            blockType
-        )
+            RichUtils.toggleBlockType(
+                this.state.editorState,
+                blockType
+            )
         );
     }
     _toggleInlineStyle(inlineStyle) {
         this.onChange(
-        RichUtils.toggleInlineStyle(
-            this.state.editorState,
-            inlineStyle
-        )
+            RichUtils.toggleInlineStyle(
+                this.state.editorState,
+                inlineStyle
+            )
         );
     }
     render() {
@@ -48,19 +48,19 @@ class RichEditorExample extends React.Component {
         let className = 'RichEditor-editor';
         var contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {
-        if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-            className += ' RichEditor-hidePlaceholder';
-        }
+            if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+                className += ' RichEditor-hidePlaceholder';
+            }
         }
         return (
         <div className="RichEditor-root">
             <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
+                editorState={editorState}
+                onToggle={this.toggleBlockType}
             />
             <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
+                editorState={editorState}
+                onToggle={this.toggleInlineStyle}
             />
             <div className={className} onClick={this.focus}>
             <Editor
@@ -98,19 +98,19 @@ class StyleButton extends React.Component {
     constructor() {
         super();
         this.onToggle = (e) => {
-        e.preventDefault();
-        this.props.onToggle(this.props.style);
+            e.preventDefault();
+            this.props.onToggle(this.props.style);
         };
     }
     render() {
         let className = 'RichEditor-styleButton';
         if (this.props.active) {
-        className += ' RichEditor-activeButton';
+            className += ' RichEditor-activeButton';
         }
         return (
-        <span className={className} onMouseDown={this.onToggle}>
-            {this.props.label}
-        </span>
+            <span className={className} onMouseDown={this.onToggle}>
+                {this.props.label}
+            </span>
         );
     }
 }
@@ -137,11 +137,11 @@ const BlockStyleControls = (props) => {
         <div className="RichEditor-controls">
         {BLOCK_TYPES.map((type) =>
             <StyleButton
-            key={type.label}
-            active={type.style === blockType}
-            label={type.label}
-            onToggle={props.onToggle}
-            style={type.style}
+                key={type.label}
+                active={type.style === blockType}
+                label={type.label}
+                onToggle={props.onToggle}
+                style={type.style}
             />
         )}
         </div>
