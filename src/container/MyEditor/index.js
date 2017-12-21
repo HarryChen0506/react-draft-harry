@@ -36,14 +36,14 @@ class MyEditor extends React.Component{
     }
     render(){
         return (      
-            <div>
+            <div className="editor-root">
                 <div style={{padding:10}}>
                     {/*<button onClick={this._onBoldClick.bind(this)}>粗体</button>
                     <button onClick={this._onFontSizeClick.bind(this)}>36号字体</button>*/}
                     <DropDown>
                         <div className="dropdown-content">
-                            <i className="dropdown-arrow"></i>
-                            {/*<ul className="braft-font-sizes-wrap">
+                            <i className="dropdown-arrow arrow"></i>
+                            <ul className="editor-font-sizes-wrap">
                                 <li data-size="12">12px</li>
                                 <li data-size="14">14px</li>
                                 <li data-size="16">16px</li>
@@ -62,7 +62,7 @@ class MyEditor extends React.Component{
                                 <li data-size="96">96px</li>
                                 <li data-size="120">120px</li>
                                 <li data-size="144">144px</li>
-                            </ul>*/}
+                            </ul>
                         </div>
                     </DropDown>
                 </div>

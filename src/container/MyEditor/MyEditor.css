@@ -1,9 +1,17 @@
 /*MyEditor组件样式*/
+/*通用样式*/
+.editor-root button:focus {
+    outline: none
+}
+.editor-root ul {
+    margin: 0;
+    padding:0
+}
+
 /*通用组件*/
-
-
 .editor-dropdown {
     display: inline-block;
+    position: relative;
     padding: 5px 5px;
     font-size: 14px;
     border-radius: 3px;
@@ -35,6 +43,59 @@
 .editor-dropdown.active  {
     background-color: rgba(0, 0, 0, 0.05);
 }
-.editor-dropdown  button:focus {
-    outline: none
+.editor-dropdown .dropdown-content {
+    position: absolute;
+    top:50px;
+    left:0;
+    padding:2px 10px 10px 10px;
+    width:220px;
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.editor-dropdown.active .dropdown-content {
+    display: block;
+}
+.editor-dropdown .dropdown-content {
+    display: none
+}
+.editor-dropdown .dropdown-content .editor-font-sizes-wrap li{
+    display: inline-block;
+    width:50px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    margin-right:5px;
+    margin-top:8px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.editor-dropdown .dropdown-content .arrow {
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-width: 11px;
+    border-color: transparent;
+    border-style: solid;
+    border-top-width: 0;
+    border-bottom-color: #ccc;
+}
+.editor-dropdown .dropdown-content .arrow::after{
+    position: absolute;
+    top: 1px;
+    margin-left: -10px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 10px;   
+    content: " ";
+    border-top-width: 0;
+    border-bottom-color: #f7f7f7;
 }
