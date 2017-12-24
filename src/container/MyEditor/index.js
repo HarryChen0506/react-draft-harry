@@ -1,6 +1,6 @@
 //我的富文本编辑器组件
 import React from 'react';
-import {Editor, EditorState, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
+import {Editor, EditorState, SelectionState, RichUtils, convertFromRaw, convertToRaw, Modifier} from 'draft-js';
 import { convertToHTML, convertFromHTML } from 'draft-convert'
 import DropDown from '../../component/common/DropDown';
 import defaultOptions from '../../config/options.js';
@@ -37,7 +37,14 @@ class MyEditor extends React.Component{
     _onGetContent(){
         const contentState = this.state.editorState.getCurrentContent();
         console.log('raw', convertToRaw(contentState));
-        console.log('html', convertToHTML(contentState));        
+        console.log('html', convertToHTML({
+                                styleToHTML: (style) => {
+                                    style = style.toLowerCase();
+                                    if (style.indexOf('fontsize-'===0)) {
+                                        return <span style={{fontSize: style.split('-')[1] + 'px'}} />;
+                                    }
+                                }
+                            })(contentState));        
     }
     _initOptions(){
         this.options = this.props.options|| defaultOptions;
@@ -59,8 +66,20 @@ class MyEditor extends React.Component{
         return styleMap
     }
     _onSelectFontSize(v){
-        console.log(v)
-        const FONTSIZE = 'FONTSIZE-'+v
+        const FONTSIZE = 'FONTSIZE-'+v;
+        // removeInlineStyle
+        //         removeInlineStyle(
+        //   contentState: ContentState,
+        //   selectionState: SelectionState,
+        //   inlineStyle: string
+        // ): ContentState
+        const selectionState = this.state.editorState.getSelection();
+        console.log('selectionState',selectionState)
+        Modifier.removeInlineStyle(
+            this.state.editorState.getCurrentContent(),
+            selectionState,
+            'FONTSIZE-40'
+        )
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, FONTSIZE)); 
     }
     render(){
