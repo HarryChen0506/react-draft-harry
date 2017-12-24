@@ -27,7 +27,7 @@ class DropDown extends React.Component{
             //非当前点击元素
             this.setState({
                 active: false
-            })           
+            })  
         }
     }
     handleActive(e){
@@ -37,10 +37,11 @@ class DropDown extends React.Component{
     }
     render(){         
         return(           
-            <div className={'editor-dropdown editor-font-size-dropdown '+(this.state.active?'active':'')}
-                 onClick={this.handleActive.bind(this)} 
-            >
-                <button className="dropdown-handler">
+            <div className={'editor-dropdown editor-font-size-dropdown '+(this.state.active?'active':'')}>
+                <button
+                    onClick={this.handleActive.bind(this)}
+                    className="dropdown-handler" title="字号"
+                 >
                     <span                         
                         data-editor-component-id={this.componentId} 
                         className="dropdown-word">字号

@@ -1,23 +1,23 @@
 //我的富文本编辑器组件
 import React from 'react';
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, EditorState, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
+import { convertToHTML, convertFromHTML } from 'draft-convert'
 import DropDown from '../../component/common/DropDown';
+import defaultOptions from '../../config/options.js';
 // import 'draft-js/dist/Draft.css'
 import './MyEditor.css';
 import '../../assets/icon/icon.css';
-
-const styleMap = {
-    'FONTSIZE-36':{
-        fontSize: 36
-    }
-};
 
 class MyEditor extends React.Component{
     constructor(...args){
         super(...args);
         this.state = {
             editorState: EditorState.createEmpty()
-        }           
+        }  
+        this.options = {};
+        this._initOptions();
+        this.styleMap = this._initStyleMap(this.options);
+       
     }
     componentDidMount(){
         // console.log(this.state);   
@@ -34,6 +34,35 @@ class MyEditor extends React.Component{
     _onFontSizeClick(){
          this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'FONTSIZE-36'));
     }
+    _onGetContent(){
+        const contentState = this.state.editorState.getCurrentContent();
+        console.log('raw', convertToRaw(contentState));
+        console.log('html', convertToHTML(contentState));        
+    }
+    _initOptions(){
+        this.options = this.props.options|| defaultOptions;
+        return this.options
+    }
+    _initStyleMap(options){
+        let styleMap = {};
+        for(var key in options){
+            if(key==='fontSizes'){
+                // console.log('key', key, options[key])
+                options[key].forEach((v,i)=>{
+                    const fontSizeKey = 'FONTSIZE-'+v;
+                    styleMap[fontSizeKey] = {
+                        fontSize: v
+                    }
+                })
+            }
+        }
+        return styleMap
+    }
+    _onSelectFontSize(v){
+        console.log(v)
+        const FONTSIZE = 'FONTSIZE-'+v
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, FONTSIZE)); 
+    }
     render(){
         return (      
             <div className="editor-root">
@@ -43,33 +72,22 @@ class MyEditor extends React.Component{
                     <DropDown>
                         <div className="dropdown-content">
                             <i className="dropdown-arrow arrow"></i>
-                            <ul className="editor-font-sizes-wrap">
-                                <li data-size="12">12px</li>
-                                <li data-size="14">14px</li>
-                                <li data-size="16">16px</li>
-                                <li data-size="18">18px</li>
-                                <li data-size="20">20px</li>
-                                <li data-size="24">24px</li>
-                                <li data-size="28">28px</li>
-                                <li data-size="30">30px</li>
-                                <li data-size="32">32px</li>
-                                <li data-size="36">36px</li>
-                                <li data-size="40">40px</li>
-                                <li data-size="48">48px</li>
-                                <li data-size="56">56px</li>
-                                <li data-size="64">64px</li>
-                                <li data-size="72">72px</li>
-                                <li data-size="96">96px</li>
-                                <li data-size="120">120px</li>
-                                <li data-size="144">144px</li>
+                            <ul className="editor-font-sizes-wrap">                               
+                                {this.options.fontSizes.map((v,i)=>(
+                                     <li data-size={v} 
+                                         key={i}
+                                         onClick={ ()=>{ this._onSelectFontSize.bind(this)(v) } }
+                                     >{v}px</li>
+                                ))}
                             </ul>
                         </div>
                     </DropDown>
+                    <button onClick={this._onGetContent.bind(this)}>预览</button>
                 </div>
                 <Editor 
                     editorState={this.state.editorState} 
                     onChange={this.onChange.bind(this)} 
-                    customStyleMap={styleMap}
+                    customStyleMap={this.styleMap}
                 />   
             </div>
         )
